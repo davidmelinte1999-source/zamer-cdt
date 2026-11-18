@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Замеры">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2b5bd7">
+<title>Замеры магазина</title>
+<style>
+:root{--ac:#2b5bd7;--ok:#1f9d55;--warn:#d97706;--bad:#c62828;--bg:#f2f3f7;--card:#fff;--tx:#1c1d21;--mu:#6b7080;--ln:#e3e5ec}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--ac);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 12px 10px;display:flex;align-items:center;gap:8px;min-height:52px}
+header h1{font-size:18px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;font-size:17px;padding:8px 12px}
+main{padding:12px 12px calc(env(safe-area-inset-bottom) + 90px);max-width:720px;margin:0 auto}
+.card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.big{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:0;border-radius:16px;padding:18px 16px;margin-bottom:12px;font-size:20px;font-weight:600;color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.big .ic{font-size:34px}.big small{display:block;font-weight:400;font-size:15px;color:var(--mu);margin-top:2px}
+.bar{height:8px;border-radius:4px;background:var(--ln);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--ok)}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:15px;font-size:18px;font-weight:600;background:var(--ac);color:#fff;margin-top:10px}
+.btn.sec{background:#e8ecf8;color:var(--ac)}.btn.gr{background:var(--ok)}.btn.gray{background:#eceef3;color:var(--tx);font-weight:500}
+.btn.sm{display:inline-block;width:auto;padding:9px 14px;font-size:16px;margin:0}
+.row{display:flex;gap:10px;align-items:center}
+.mu{color:var(--mu);font-size:15px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;margin:0 -12px;padding-left:12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--ln);background:#fff;border-radius:18px;padding:7px 13px;font-size:15px;color:var(--tx)}
+.chip.on{background:var(--ac);border-color:var(--ac);color:#fff}
+input[type=search],input[type=text],textarea,select{width:100%;font-size:18px;padding:12px;border:1px solid var(--ln);border-radius:12px;background:#fff;color:var(--tx)}
+.list .it{display:flex;gap:12px;align-items:center;background:#fff;padding:10px;border-radius:12px;margin-bottom:8px;border:0;width:100%;text-align:left;color:var(--tx);font-size:16px}
+.th{width:54px;height:54px;flex:none;border-radius:8px;background:#f0f1f5 center/contain no-repeat;display:flex;align-items:center;justify-content:center;font-size:24px;color:#b5b9c6}
+.it .nm{flex:1;min-width:0}.it .nm b{font-weight:500;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.st{flex:none;font-size:22px;width:28px;text-align:center}
+.grp{font-weight:700;margin:16px 2px 8px;font-size:16px}
+.hero{width:100%;height:210px;background:#f6f7fa center/contain no-repeat;border-radius:12px}
+.dims{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.dim label{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-align:center}
+.dim input{width:100%;font-size:24px;font-weight:600;text-align:center;padding:12px 4px;border:2px solid var(--ln);border-radius:12px}
+.dim input:focus{border-color:var(--ac);outline:0}
+.dim .hint{display:block;text-align:center;font-size:13px;color:var(--mu);margin-top:3px}
+.photos{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.ph{position:relative;width:86px;height:86px;border-radius:10px;background:#eee center/cover}
+.ph button{position:absolute;top:-6px;right:-6px;width:26px;height:26px;border-radius:13px;border:0;background:#333;color:#fff;font-size:14px}
+.ph span{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:1px 5px;border-radius:5px}
+.camrow{display:flex;gap:8px;margin-top:8px}.camrow label{flex:1}
+.cam{display:block;text-align:center;border:2px dashed #b9c4e6;border-radius:12px;padding:13px 6px;color:var(--ac);font-weight:600;font-size:16px;background:#f7f9ff}
+.cam input{display:none}
+.shelf{border-top:1px solid var(--ln);padding:12px 0}
+.shelf .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:#222;color:#fff;padding:12px 18px;border-radius:12px;font-size:16px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90%}
+.toast.on{opacity:.95}
+.tag{display:inline-block;font-size:13px;padding:2px 8px;border-radius:8px;background:#eef1f8;color:var(--mu);margin:2px 4px 0 0}
+.tag.ok{background:#e3f5ea;color:var(--ok)}.tag.no{background:#fdecea;color:var(--bad)}
+.map{width:100%;height:auto;background:#fff;border-radius:12px;touch-action:manipulation}
+.map rect.f{cursor:pointer}
+.foot{position:fixed;left:0;right:0;bottom:0;background:rgba(242,243,247,.96);padding:8px 12px calc(env(safe-area-inset-bottom) + 8px);border-top:1px solid var(--ln);z-index:6}
+.foot .in{max-width:720px;margin:0 auto;display:flex;gap:8px}.foot .btn{margin:0}
+.warn{background:#fff7e6;border:1px solid #f6d48b;border-radius:12px;padding:10px 12px;font-size:15px;margin-top:10px}
+details summary{color:var(--ac);font-size:16px;padding:6px 0}
+</style>
+</head>
+<body>
+<header><button id="back" hidden>‹ Назад</button><h1 id="ttl">Замеры</h1></header>
+<main id="app"><p class="mu">Загрузка…</p></main>
+<div class="toast" id="toast"></div>
+<script src="zamer-data.js"></script>
+<script>
+'use strict';
+const Z = window.ZAMER_DATA;
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const CAT = Object.fromEntries(Z.cats.map(c => [c.id, c.name]));
+const PROD = Object.fromEntries(Z.prods.map(p => [p.id, p]));
+const FURN = Object.fromEntries(Z.furn.map(f => [f.id, f]));
+const BOTTLE = new Set(['spirit', 'wine', 'spark', 'beer', 'soft']);
+// где товар стоит по планограмме
+const WHERE = {};
+Z.furn.forEach(f => f.sh.forEach(s => s.items.forEach(id => { (WHERE[id] = WHERE[id] || []).push({f: f.id, n: s.n}); })));
+const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ё/g, 'е');
+Z.prods.forEach(p => p._s = norm(p.n + ' ' + p.a));
+
+/* ---------- хранилище (IndexedDB) ---------- */
+let db, REC = {};
+function idbOpen() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('zamer_' + Z.store.code, 1);
+    r.onupgradeneeded = () => { const d = r.result; d.createObjectStore('rec', {keyPath: 'key'}); d.createObjectStore('photo', {keyPath: 'pid'}); };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+}
+function tx(store, mode, fn) {
+  return new Promise((res, rej) => {
+    const t = db.transaction(store, mode), s = t.objectStore(store); let out;
+    const r = fn(s); if (r) r.onsuccess = () => { out = r.result; };
+    t.oncomplete = () => res(out); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error);
+  });
+}
+const getRec = key => REC[key] || (REC[key] = {key, photos: []});
+async function putRec(r) { r.ts = Date.now(); REC[r.key] = r; try { await tx('rec', 'readwrite', s => s.put(r)); } catch (e) { alert('Не удалось сохранить: ' + e.message); } }
+const getPhoto = pid => tx('photo', 'readonly', s => s.get(pid)).then(x => x && x.blob);
+
+/* ---------- утилиты ---------- */
+const cm = mm => mm == null || mm === '' ? '' : String(Math.round(mm) / 10).replace('.', ',');
+function mmOf(v) { v = String(v || '').trim().replace(',', '.'); if (!v) return null; const n = parseFloat(v); return isFinite(n) ? Math.round(n * 10) : NaN; }
+function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove('on'), 1800); }
+const pDone = id => { const r = REC['p:' + id]; return !!r && (r.status === 'ok' || r.status === 'absent'); };
+const fDone = id => { const r = REC['f:' + id]; return !!r && r.status === 'ok'; };
+const stIcon = r => !r ? '<span class="st" style="color:#c9ccd6">○</span>' : r.status === 'ok' ? '<span class="st" style="color:var(--ok)">✓</span>' : r.status === 'absent' ? '<span class="st" style="color:var(--bad)">✕</span>' : (r.w || r.h || r.d || (r.photos || []).length) ? '<span class="st" style="color:var(--warn)">◐</span>' : '<span class="st" style="color:#c9ccd6">○</span>';
+const fname = f => f.name.replace(/\s*·.*/, '');
+
+async function resize(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('фото не открылось')); i.src = url; });
+    const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return await new Promise(res => c.toBlob(res, 'image/jpeg', 0.82));
+  } finally { URL.revokeObjectURL(url); }
+}
+async function addPhoto(key, kind, file) {
+  const blob = await resize(file);
+  const pid = key + '|' + Date.now() + Math.random().toString(36).slice(2, 6);
+  await tx('photo', 'readwrite', s => s.put({pid, blob}));
+  const r = getRec(key); r.photos = r.photos || []; r.photos.push({pid, kind, sent: false}); await putRec(r);
+}
+async function delPhoto(key, pid) {
+  if (!confirm('Удалить это фото?')) return;
+  const r = getRec(key); r.photos = r.photos.filter(p => p.pid !== pid); await putRec(r);
+  await tx('photo', 'readwrite', s => s.delete(pid));
+}
+const KIND = {front: 'спереди', side: 'сбоку', gen: 'общее', more: 'ещё', label: 'этикетка'};
+function photoBlock(key, kinds) {
+  return `<div class="photos" id="phs"></div><div class="camrow">${kinds.map(k =>
+    `<label class="cam">📷 ${esc(k[1])}<input type="file" accept="image/*" capture="environment" data-k="${k[0]}"></label>`).join('')}</div>`;
+}
+async function fillPhotos(key) {
+  const box = $('#phs'); if (!box) return;
+  const r = REC[key]; const ps = (r && r.photos) || [];
+  box.innerHTML = ps.length ? '' : '<span class="mu">Фото ещё нет</span>';
+  for (const p of ps) {
+    const b = await getPhoto(p.pid); if (!b) continue;
+    const d = document.createElement('div'); d.className = 'ph'; const u = URL.createObjectURL(b); d.style.backgroundImage = `url(${u})`;
+    d.innerHTML = `<span>${esc(KIND[p.kind] || '')}</span><button aria-label="удалить">✕</button>`;
+    d.querySelector('button').onclick = async () => { await delPhoto(key, p.pid); fillPhotos(key); };
+    box.appendChild(d);
+  }
+}
+function wirePhotos(key) {
+  document.querySelectorAll('.cam input').forEach(inp => inp.onchange = async () => {
+    const files = [...inp.files]; inp.value = ''; if (!files.length) return;
+    toast('Сохраняю фото…');
+    try { for (const f of files) await addPhoto(key, inp.dataset.k, f); toast('Фото сохранено'); } catch (e) { alert('Фото не сохранилось: ' + e.message); }
+    fillPhotos(key);
+  });
+  fillPhotos(key);
+}
+function dimInputs(r, hints, labels) {
+  labels = labels || ['Ширина', 'Высота', 'Глубина'];
+  return `<div class="dims">${['w', 'h', 'd'].map((k, i) => `<div class="dim"><label>${labels[i]}, см</label>
+    <input inputmode="decimal" enterkeyhint="next" id="i_${k}" value="${esc(cm(r[k]))}" placeholder="—">
+    ${hints && hints[i] != null ? `<span class="hint">${hints[i]}</span>` : ''}</div>`).join('')}</div>`;
+}
+function wireAutosave(key, fields) {
+  fields.forEach(k => { const e = $('#i_' + k); if (!e) return;
+    e.addEventListener('change', () => { const v = mmOf(e.value); const r = getRec(key); r[k] = isNaN(v) ? null : v; putRec(r); });
+    e.addEventListener('keydown', ev => { if (ev.key === 'Enter') { const all = [...document.querySelectorAll('.dims input, .shelf input')]; const n = all[all.indexOf(e) + 1]; if (n) n.focus(); else e.blur(); } });
+  });
+}
+function readDims(fields) {
+  const o = {};
+  for (const k of fields) { const v = mmOf($('#i_' + k).value); if (v === null) return {err: 'Заполните все размеры'}; if (isNaN(v)) return {err: 'Размер записан неправильно: «' + $('#i_' + k).value + '»'}; o[k] = v; }
+  return o;
+}
+
+/* ---------- экраны ---------- */
+let CTX = {list: [], from: '#prods'}; // текущий список для «следующий»
+const UI = {q: '', cat: '', st: 'todo'};
+function head(title, back) { $('#ttl').textContent = title; const b = $('#back'); b.hidden = !back; b.onclick = () => history.length > 1 ? history.back() : go(back); }
+const go = (h, replace) => { if (replace) location.replace(h); else location.hash = h; };
+function foot(html) { let f = $('#foot'); if (!f) { f = document.createElement('div'); f.id = 'foot'; f.className = 'foot'; document.body.appendChild(f); } f.innerHTML = '<div class="in">' + html + '</div>'; f.hidden = !html; }
+
+function scrHome() {
+  head(Z.store.name, null); foot('');
+  const np = Z.prods.length, dp = Z.prods.filter(p => pDone(p.id)).length;
+  const nf = Z.furn.length, df = Z.furn.filter(f => fDone(f.id)).length;
+  const news = Object.values(REC).filter(r => r.key.startsWith('n:')).length;
+  const unsent = Object.values(REC).reduce((a, r) => a + (r.photos || []).filter(p => !p.sent).length, 0);
+  $('#app').innerHTML = `
+  <button class="big" onclick="go('#furn')"><span class="ic">🗄️</span><span style="flex:1">Мебель<small>Измерено ${df} из ${nf}</small><div class="bar"><i style="width:${nf ? df / nf * 100 : 0}%"></i></div></span></button>
+  <button class="big" onclick="go('#prods')"><span class="ic">🍾</span><span style="flex:1">Товары<small>Измерено ${dp} из ${np}${news ? ' · добавлено вручную: ' + news : ''}</small><div class="bar"><i style="width:${np ? dp / np * 100 : 0}%"></i></div></span></button>
+  <button class="big" onclick="go('#send')"><span class="ic">📤</span><span style="flex:1">Отправить данные<small>${unsent ? 'Не отправлено фото: ' + unsent : 'Всё отправлено'}</small></span></button>
+  <div class="card"><b>Как работать</b><ol class="mu" style="padding-left:20px;margin:8px 0 0">
+  <li>Начните с мебели: «Мебель» → нажмите на шкаф на плане → измерьте рулеткой → «Сохранить».</li>
+  <li>Потом товары: на карточке шкафа кнопка «Товары на этой мебели» — идёте полка за полкой.</li>
+  <li>Товар, которого нет в списке, — «＋ Товара нет в списке».</li>
+  <li>Всё сохраняется в телефоне сразу. В конце дня — «Отправить данные».</li></ol></div>
+  <details class="card"><summary>Установить на экран «Домой»</summary><p class="mu">В Safari нажмите кнопку «Поделиться» (квадрат со стрелкой) → «На экран „Домой“». Так данные надёжнее хранятся в телефоне, и замеры открываются одной иконкой.</p></details>`;
+}
+
+function hallMap() {
+  const H = Z.hall; if (!H.w) return '';
+  const it = Z.furn.filter(f => f.pos).map(f => {
+    const rot = (f.pos.r || 0) % 180 !== 0, w = rot ? f.d : f.w, d = rot ? f.w : f.d;
+    const rr = REC['f:' + f.id], c = fDone(f.id) ? '#1f9d55' : (rr && (rr.w || rr.h || rr.d || (rr.photos || []).length) ? '#d97706' : '#8a93a8');
+    return `<g onclick="go('#f/${f.id}')"><rect class="f" x="${f.pos.x}" y="${f.pos.y}" width="${Math.max(w, 60)}" height="${Math.max(d, 60)}" fill="${c}" fill-opacity=".25" stroke="${c}" stroke-width="30" rx="20"/>
+      ${w > 500 || d > 500 ? `<text x="${f.pos.x + w / 2}" y="${f.pos.y + d / 2}" font-size="190" text-anchor="middle" dominant-baseline="middle" fill="#1c1d21" pointer-events="none">${esc(fname(f).slice(0, 10))}</text>` : ''}</g>`;
+  }).join('');
+  const oth = H.other.filter(o => o.pos && /door|window/.test(o.kind)).map(o => {
+    const rot = (o.pos.r || 0) % 180 !== 0, w = rot ? o.d : o.w, d = rot ? o.w : o.d;
+    return `<rect x="${o.pos.x}" y="${o.pos.y}" width="${w}" height="${d}" fill="${o.kind === 'window' ? '#9cc7ef' : '#c9a36b'}"/>`;
+  }).join('');
+  return `<svg class="map" viewBox="-150 -150 ${H.w + 300} ${H.d + 300}"><rect x="0" y="0" width="${H.w}" height="${H.d}" fill="#fafbfd" stroke="#555" stroke-width="40"/>${oth}${it}</svg>
+  <p class="mu" style="margin:6px 2px 0">Нажмите на мебель на плане. Серый — не измерено, оранжевый — начато, зелёный — готово.</p>`;
+}
+function scrFurn() {
+  head('Мебель', '#'); foot('');
+  const rows = Z.furn.map(f => `<button class="it" onclick="go('#f/${f.id}')"><span class="th">${f.kind === 'fx' ? '🗄️' : '🪑'}</span><span class="nm"><b>${esc(f.name)}</b><span class="mu">по проекту ${cm(f.w)} × ${f.h ? cm(f.h) : '?'} × ${cm(f.d)} см${f.sh.length ? ' · полок: ' + f.sh.length : ''}</span></span>${stIcon(REC['f:' + f.id])}</button>`).join('');
+  const extra = Object.values(REC).filter(r => r.key.startsWith('g:')).map(r => `<button class="it" onclick="go('#g/${r.key.slice(2)}')"><span class="th">➕</span><span class="nm"><b>${esc(r.name || 'Без названия')}</b><span class="mu">нет в проекте</span></span>${stIcon(r)}</button>`).join('');
+  $('#app').innerHTML = `<div class="card" style="padding:8px">${hallMap()}</div>
+  <div class="list"><button class="it" onclick="go('#room')"><span class="th">📐</span><span class="nm"><b>Помещение</b><span class="mu">длина, ширина, высота зала</span></span>${stIcon(REC.room)}</button></div>
+  <div class="grp">Мебель по проекту</div><div class="list">${rows}</div>
+  ${extra ? `<div class="grp">Добавлено вручную</div><div class="list">${extra}</div>` : ''}
+  <button class="btn sec" onclick="go('#g/' + Date.now())">＋ Мебели нет в списке</button>`;
+}
+
+function frontSvg(f, r) {
+  const H = (r.h || f.h || 2400), W = (r.w || f.w || 1000), sc = 260 / H, w = Math.max(60, W * sc);
+  const shs = (r.shelves || f.sh.map(s => ({n: s.n, py: s.y}))).filter(s => !s.absent);
+  const lines = shs.map(s => { const yy = s.y != null ? s.y : s.py; if (yy == null) return ''; const y = 270 - yy * sc; return `<line x1="${110 - w / 2}" x2="${110 + w / 2}" y1="${y}" y2="${y}" stroke="#2b5bd7" stroke-width="3"/><text x="${110 + w / 2 + 6}" y="${y + 5}" font-size="14" fill="#2b5bd7">${s.n}</text>`; }).join('');
+  return `<svg viewBox="0 0 220 285" style="width:150px;height:auto;float:right;margin:0 0 6px 10px"><rect x="${110 - w / 2}" y="${270 - H * sc}" width="${w}" height="${H * sc}" fill="#f4f5f9" stroke="#333" stroke-width="2"/>${lines}<line x1="0" x2="220" y1="270" y2="270" stroke="#999"/><text x="4" y="283" font-size="11" fill="#888">пол</text></svg>`;
+}
+function scrFx(id, isNew) {
+  const f = isNew ? {id, name: '', w: null, h: null, d: null, sh: [], kind: 'fx'} : FURN[id];
+  if (!f) return go('#furn', true);
+  const key = (isNew ? 'g:' : 'f:') + id, r = getRec(key);
+  if (!r.shelves) r.shelves = f.sh.map(s => ({n: s.n, py: s.y, pd: s.d, y: null, d: null, absent: false}));
+  head(isNew ? 'Новая мебель' : f.name, '#furn');
+  const prodsN = f.sh.reduce((a, s) => a + s.items.length, 0);
+  const shRows = r.shelves.slice().reverse().map(s => `<div class="shelf" data-n="${s.n}"><div class="t"><span>Полка ${s.n}${s.n === 1 ? ' (нижняя)' : s.n === r.shelves.length ? ' (верхняя)' : ''}</span>
+    <label class="mu"><input type="checkbox" data-a="${s.n}" ${s.absent ? 'checked' : ''}> полки нет</label></div>
+    <div class="two"><div class="dim"><label>От пола до полки, см</label><input inputmode="decimal" data-y="${s.n}" value="${esc(cm(s.y))}" placeholder="—">${s.py != null ? `<span class="hint">по проекту ${cm(s.py)}</span>` : ''}</div>
+    <div class="dim"><label>Глубина полки, см</label><input inputmode="decimal" data-d="${s.n}" value="${esc(cm(s.d))}" placeholder="—">${s.pd ? `<span class="hint">по проекту ${cm(s.pd)}</span>` : ''}</div></div></div>`).join('');
+  $('#app').innerHTML = `<div class="card">${frontSvg(f, r)}
+    ${isNew ? `<label class="mu">Название (что это за мебель)</label><input type="text" id="i_name" value="${esc(r.name || '')}" placeholder="например: витрина у кассы">` : `<b style="font-size:19px">${esc(f.name)}</b>
+    <p class="mu">По проекту: ${cm(f.w)} × ${f.h ? cm(f.h) : '?'} × ${cm(f.d)} см (ширина × высота × глубина). Реальные размеры часто отличаются — меряйте рулеткой, не переписывайте из проекта.</p>`}
+    <div style="clear:both"></div>
+    ${dimInputs(r, isNew ? null : [`проект ${cm(f.w)}`, f.h ? `проект ${cm(f.h)}` : null, `проект ${cm(f.d)}`], ['Ширина', 'Высота', 'Глубина'])}
+    <p class="mu" style="margin-bottom:0">Ширина — по фасаду, слева направо. Высота — от пола до самого верха. Глубина — от фасада до стены.</p></div>
+  ${prodsN ? `<button class="btn sec" style="margin:0 0 12px" onclick="go('#fp/${id}')">🍾 Товары на этой мебели (${prodsN})</button>` : ''}
+  <div class="card"><b>Полки</b><p class="mu" style="margin:4px 0 0">Полка 1 — самая нижняя. Высота — от пола до верхней поверхности полки.</p>
+    <div id="shs">${shRows}</div><button class="btn gray" id="addsh">＋ Есть полка, которой нет в списке</button></div>
+  <div class="card"><b>Фото</b><p class="mu" style="margin:4px 0 0">Общее фото с отступа (видно всю мебель) и фото спереди.</p>${photoBlock(key, [['gen', 'Общее'], ['front', 'Спереди'], ['more', 'Ещё']])}</div>
+  <div class="card"><b>Комментарий</b><textarea id="i_note" rows="2" placeholder="например: средняя полка сломана, нет подсветки">${esc(r.note || '')}</textarea></div>`;
+  foot(`<button class="btn gr" id="save">✓ Сохранить</button>`);
+  wireAutosave(key, ['w', 'h', 'd']); wirePhotos(key);
+  const syncSh = () => { document.querySelectorAll('#shs .shelf').forEach(el => { const n = +el.dataset.n, s = r.shelves.find(x => x.n === n);
+    const y = mmOf(el.querySelector('[data-y]').value), d = mmOf(el.querySelector('[data-d]').value);
+    s.y = isNaN(y) ? null : y; s.d = isNaN(d) ? null : d; s.absent = el.querySelector('[data-a]').checked; }); };
+  document.querySelectorAll('#shs input').forEach(e => e.addEventListener('change', () => { syncSh(); putRec(r); }));
+  $('#i_note').onchange = () => { r.note = $('#i_note').value; putRec(r); };
+  if (isNew) $('#i_name').onchange = () => { r.name = $('#i_name').value.trim(); putRec(r); };
+  $('#addsh').onclick = async () => { syncSh(); r.shelves.push({n: r.shelves.length + 1, py: null, pd: null, y: null, d: null, absent: false, extra: true}); await putRec(r); scrFx(id, isNew); };
+  $('#save').onclick = async () => {
+    syncSh(); r.note = $('#i_note').value;
+    if (isNew) { r.name = $('#i_name').value.trim(); if (!r.name) return alert('Напишите название мебели'); }
+    const o = readDims(['w', 'h', 'd']); if (o.err) return alert(o.err);
+    if (Math.min(o.w, o.h, o.d) < 50 || Math.max(o.w, o.h, o.d) > 6000) { if (!confirm('Размер выглядит странно (меньше 5 см или больше 6 м). Всё верно?')) return; }
+    const miss = r.shelves.filter(s => !s.absent && (s.y == null));
+    if (miss.length && !confirm(`Не измерена высота полок: ${miss.map(s => s.n).join(', ')}. Сохранить так?`)) return;
+    const bad = r.shelves.filter(s => !s.absent && s.y != null && s.y > o.h);
+    if (bad.length && !confirm(`Полка ${bad.map(s => s.n).join(', ')} выше самой мебели. Всё верно?`)) return;
+    if (!(r.photos || []).length && !confirm('Нет ни одного фото. Сохранить без фото?')) return;
+    Object.assign(r, o, {status: 'ok', type: isNew ? 'newfurn' : 'furn'}); await putRec(r);
+    toast('Сохранено ✓'); history.back();
+  };
+}
+
+function scrRoom() {
+  const key = 'room', r = getRec(key); head('Помещение', '#furn');
+  $('#app').innerHTML = `<div class="card"><p class="mu" style="margin-top:0">По проекту: ${cm(Z.hall.w)} × ${cm(Z.hall.d)} см, высота ${cm(Z.hall.h)} см (высота в проекте примерная).</p>
+  ${dimInputs(r, [`проект ${cm(Z.hall.w)}`, `проект ${cm(Z.hall.h)}`, `проект ${cm(Z.hall.d)}`], ['Длина (вдоль входа)', 'Высота потолка', 'Ширина (вглубь)'])}</div>
+  <div class="card"><b>Фото</b>${photoBlock(key, [['gen', 'Общее'], ['more', 'Ещё']])}</div>
+  <div class="card"><b>Комментарий</b><textarea id="i_note" rows="2">${esc(r.note || '')}</textarea></div>`;
+  foot(`<button class="btn gr" id="save">✓ Сохранить</button>`);
+  wireAutosave(key, ['w', 'h', 'd']); wirePhotos(key);
+  $('#save').onclick = async () => { const o = readDims(['w', 'h', 'd']); if (o.err) return alert(o.err); Object.assign(r, o, {status: 'ok', type: 'room', note: $('#i_note').value}); await putRec(r); toast('Сохранено ✓'); history.back(); };
+}
+
+function prodRow(p) {
+  return `<button class="it" onclick="openP('${esc(p.id)}')"><span class="th" ${p.img ? `style="background-image:url('${esc(p.img)}')"` : ''}>${p.img ? '' : '🍾'}</span><span class="nm"><b>${esc(p.n)}</b><span class="mu">${esc(p.a)}${p.z ? ' · не продавался' : ''}</span></span>${stIcon(REC['p:' + p.id])}</button>`;
+}
+window.openP = id => { go('#p/' + encodeURIComponent(id)); };
+let SHOWN = 60;
+function scrProds() {
+  head('Товары', '#'); foot(`<button class="btn sec" onclick="go('#n/' + Date.now())">＋ Товара нет в списке</button>`);
+  const cnt = {}; Z.prods.forEach(p => cnt[p.c] = (cnt[p.c] || 0) + 1);
+  const cats = Z.cats.filter(c => cnt[c.id]);
+  $('#app').innerHTML = `<input type="search" id="q" placeholder="🔍 Название или артикул" value="${esc(UI.q)}" autocomplete="off">
+  <div class="chips" style="margin-top:10px">${[['todo', 'Не измерены'], ['done', 'Готово'], ['all', 'Все']].map(s => `<button class="chip ${UI.st === s[0] ? 'on' : ''}" data-st="${s[0]}">${s[1]}</button>`).join('')}</div>
+  <div class="chips"><button class="chip ${UI.cat ? '' : 'on'}" data-c="">Все категории</button>${cats.map(c => `<button class="chip ${UI.cat === c.id ? 'on' : ''}" data-c="${c.id}">${esc(c.name)} · ${cnt[c.id]}</button>`).join('')}</div>
+  <div id="pl" class="list"></div>`;
+  const draw = () => {
+    const q = norm(UI.q).split(/\s+/).filter(Boolean);
+    let L = Z.prods.filter(p => (!UI.cat || p.c === UI.cat) && q.every(w => p._s.includes(w)) && (UI.st === 'all' || (UI.st === 'done') === pDone(p.id)));
+    const news = Object.values(REC).filter(r => r.key.startsWith('n:') && (!q.length || q.every(w => norm(r.name).includes(w))));
+    CTX = {list: L.map(p => p.id), from: '#prods'};
+    $('#pl').innerHTML = `<p class="mu" style="margin:4px 2px 8px">Найдено: ${L.length}${q.length || UI.cat ? '' : ' · сначала самые продаваемые в этом магазине'}</p>` + L.slice(0, SHOWN).map(prodRow).join('') +
+      (L.length > SHOWN ? `<button class="btn gray" id="more">Показать ещё (${L.length - SHOWN})</button>` : '') +
+      (news.length && UI.st !== 'todo' ? `<div class="grp">Добавлено вручную</div>` + news.map(r => `<button class="it" onclick="go('#n/${r.key.slice(2)}')"><span class="th">➕</span><span class="nm"><b>${esc(r.name || 'Без названия')}</b></span>${stIcon(r)}</button>`).join('') : '') +
+      (!L.length ? `<div class="card mu">Ничего не найдено. Если товар есть на полке, но его нет в списке — нажмите «＋ Товара нет в списке» внизу.</div>` : '');
+    const m = $('#more'); if (m) m.onclick = () => { SHOWN += 100; draw(); };
+  };
+  $('#q').oninput = () => { UI.q = $('#q').value; SHOWN = 60; draw(); };
+  document.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { UI.st = b.dataset.st; SHOWN = 60; scrProds(); });
+  document.querySelectorAll('[data-c]').forEach(b => b.onclick = () => { UI.cat = b.dataset.c; SHOWN = 60; scrProds(); });
+  draw();
+}
+function scrFxProds(id) {
+  const f = FURN[id]; if (!f) return go('#furn', true);
+  head(fname(f) + ': товары', '#f/' + id); foot(`<button class="btn sec" onclick="go('#n/' + Date.now())">＋ Товара нет в списке</button>`);
+  const order = [];
+  const html = f.sh.slice().reverse().map(s => { const ps = s.items.map(i => PROD[i]).filter(Boolean); ps.forEach(p => order.push(p.id));
+    const dn = ps.filter(p => pDone(p.id)).length;
+    return `<div class="grp">Полка ${s.n}${s.n === 1 ? ' (нижняя)' : s.n === f.sh.length ? ' (верхняя)' : ''} · ${dn} из ${ps.length}</div>` + (ps.length ? ps.map(prodRow).join('') : '<p class="mu">По плану пусто</p>'); }).join('');
+  CTX = {list: order, from: '#fp/' + id};
+  $('#app').innerHTML = `<p class="mu" style="margin:0 2px">Так товары стоят по планограмме. На самом деле может стоять другое — тогда найдите товар через «Товары» или добавьте его.</p><div class="list">${html}</div>`;
+}
+
+function boxSvg(bottle) {
+  return bottle ? `<svg viewBox="0 0 120 130" style="width:96px;float:right;margin-left:8px"><path d="M50 10h20v22c10 6 14 14 14 24v58H36V56c0-10 4-18 14-24z" fill="#eef2fb" stroke="#2b5bd7" stroke-width="2"/><path d="M36 122h48" stroke="#d97706" stroke-width="3"/><text x="60" y="129" font-size="9" text-anchor="middle" fill="#d97706">ширина</text><path d="M96 10v104" stroke="#1f9d55" stroke-width="3"/><text x="100" y="66" font-size="9" fill="#1f9d55" transform="rotate(90 100 66)">высота</text></svg>`
+    : `<svg viewBox="0 0 120 120" style="width:96px;float:right;margin-left:8px"><path d="M20 40l20-18h60l-20 18z M80 40l20-18v60l-20 18z" fill="#dfe6f7" stroke="#2b5bd7" stroke-width="2"/><rect x="20" y="40" width="60" height="60" fill="#eef2fb" stroke="#2b5bd7" stroke-width="2"/><path d="M20 108h60" stroke="#d97706" stroke-width="3"/><text x="50" y="118" font-size="9" text-anchor="middle" fill="#d97706">ширина</text><path d="M12 40v60" stroke="#1f9d55" stroke-width="3"/><text x="8" y="70" font-size="9" fill="#1f9d55" transform="rotate(-90 8 70)" text-anchor="middle">высота</text><path d="M84 104l18-16" stroke="#7c3aed" stroke-width="3"/><text x="98" y="108" font-size="9" fill="#7c3aed">глубина</text></svg>`;
+}
+function nextAfter(id) {
+  const L = CTX.list, i = L.indexOf(id);
+  for (let k = i + 1; k < L.length; k++) if (!pDone(L[k])) return L[k];
+  return null;
+}
+function scrProd(id) {
+  const p = PROD[id]; if (!p) return go('#prods', true);
+  const key = 'p:' + id, r = getRec(key), bottle = BOTTLE.has(p.c);
+  head(p.a, CTX.from);
+  const wh = (WHERE[id] || []).map(w => `${FURN[w.f].name}, полка ${w.n}`).join('; ');
+  $('#app').innerHTML = `<div class="card"><div class="hero" ${p.img ? `style="background-image:url('${esc(p.img)}')"` : ''}>${p.img ? '' : '<div style="padding-top:80px;text-align:center" class="mu">Фото в каталоге нет</div>'}</div>
+    <b style="display:block;font-size:18px;margin-top:10px">${esc(p.n)}</b><span class="mu">Артикул ${esc(p.a)} · ${esc(CAT[p.c] || '')}</span>
+    ${wh ? `<div class="mu" style="margin-top:4px">📍 По планограмме: ${esc(wh)}</div>` : ''}
+    ${r.status === 'absent' ? '<div><span class="tag no">отмечен: нет в магазине</span></div>' : r.status === 'ok' ? '<div><span class="tag ok">измерен</span></div>' : ''}</div>
+  <div class="card">${boxSvg(bottle)}<b>Размеры</b><p class="mu" style="margin:4px 0 8px">Как товар стоит на полке лицом к покупателю. ${bottle ? 'У бутылки ширина — самое широкое место, высота — с крышкой.' : 'Глубина — от лицевой стороны назад.'}</p><div style="clear:both"></div>
+    ${dimInputs(r)}</div>
+  <div class="card"><b>Фото</b><p class="mu" style="margin:4px 0 0">Спереди, ровно, весь товар в кадре.</p>${photoBlock(key, [['front', 'Спереди'], ['side', 'Сбоку'], ['more', 'Ещё']])}</div>
+  <details class="card"${r.note ? ' open' : ''}><summary>Комментарий</summary><textarea id="i_note" rows="2" placeholder="например: продаётся в коробке, стоит лёжа">${esc(r.note || '')}</textarea></details>
+  <button class="btn gray" id="absent">✕ Этого товара нет в магазине</button>`;
+  foot(`<button class="btn gr" id="save">✓ Сохранить и дальше</button>`);
+  wireAutosave(key, ['w', 'h', 'd']); wirePhotos(key);
+  $('#i_note').onchange = () => { r.note = $('#i_note').value; putRec(r); };
+  const after = () => { const n = nextAfter(id); if (n) go('#p/' + encodeURIComponent(n), true); else { toast('Список закончился 👍'); history.back(); } };
+  $('#absent').onclick = async () => { r.status = 'absent'; r.note = $('#i_note').value; await putRec(r); toast('Отмечено: нет в магазине'); after(); };
+  $('#save').onclick = async () => {
+    const o = readDims(['w', 'h', 'd']); if (o.err) return alert(o.err);
+    const w = [];
+    if (Math.min(o.w, o.h, o.d) < 5) w.push('размер меньше 0,5 см');
+    if (Math.max(o.w, o.h, o.d) > 1500) w.push('размер больше 1,5 м');
+    if (bottle && o.w > o.h) w.push('ширина больше высоты — не перепутаны?');
+    ['w', 'h', 'd'].forEach((k, i) => { const t = p[k]; if (t && (o[k] > t * 3 || o[k] < t / 3)) w.push(`${['ширина', 'высота', 'глубина'][i]} ${cm(o[k])} см — обычно у таких товаров около ${cm(t)} см`); });
+    if (w.length && !confirm('Проверьте, пожалуйста:\n• ' + w.join('\n• ') + '\n\nВсё верно?')) return;
+    if (!(r.photos || []).length && !confirm('Нет фото товара. Сохранить без фото?')) return;
+    Object.assign(r, o, {status: 'ok', type: 'prod', note: $('#i_note').value}); await putRec(r);
+    toast('Сохранено ✓'); after();
+  };
+}
+function scrNew(id) {
+  const key = 'n:' + id, r = getRec(key); head('Товара нет в списке', '#prods');
+  $('#app').innerHTML = `<div class="card"><label class="mu">Название с этикетки</label><input type="text" id="i_name" value="${esc(r.name || '')}" placeholder="например: Jameson 0,7 л">
+    <label class="mu" style="display:block;margin-top:10px">Штрихкод или артикул (если видно)</label><input type="text" id="i_code" inputmode="numeric" value="${esc(r.code || '')}">
+    <label class="mu" style="display:block;margin-top:10px">Категория</label><select id="i_cat"><option value="">— не знаю —</option>${Z.cats.map(c => `<option value="${c.id}" ${r.cat === c.id ? 'selected' : ''}>${esc(c.name)}</option>`).join('')}</select></div>
+  <div class="card"><b>Размеры</b>${dimInputs(r)}</div>
+  <div class="card"><b>Фото</b><p class="mu" style="margin:4px 0 0">Обязательно: спереди и этикетка со штрихкодом.</p>${photoBlock(key, [['front', 'Спереди'], ['label', 'Этикетка'], ['more', 'Ещё']])}</div>
+  <div class="card"><b>Где стоит</b><textarea id="i_note" rows="2" placeholder="например: шкаф с виски, 3-я полка">${esc(r.note || '')}</textarea></div>`;
+  foot(`<button class="btn gr" id="save">✓ Сохранить</button>`);
+  wireAutosave(key, ['w', 'h', 'd']); wirePhotos(key);
+  const keep = () => { r.name = $('#i_name').value.trim(); r.code = $('#i_code').value.trim(); r.cat = $('#i_cat').value; r.note = $('#i_note').value; };
+  ['#i_name', '#i_code', '#i_cat', '#i_note'].forEach(s => $(s).onchange = () => { keep(); putRec(r); });
+  $('#save').onclick = async () => { keep(); if (!r.name) return alert('Напишите название'); const o = readDims(['w', 'h', 'd']); if (o.err) return alert(o.err);
+    if (!(r.photos || []).length && !confirm('Нет фото. Без фото мы не поймём, что это за товар. Сохранить так?')) return;
+    Object.assign(r, o, {status: 'ok', type: 'newprod'}); await putRec(r); toast('Сохранено ✓'); history.back(); };
+}
+
+/* ---------- отправка (ZIP) ---------- */
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+async function makeZip(files) { // [{name, data: Uint8Array}]
+  const enc = new TextEncoder(), parts = [], cen = []; let off = 0;
+  const d = new Date(), dt = ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)), dd = (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate());
+  for (const f of files) {
+    const nm = enc.encode(f.name), crc = crc32(f.data), sz = f.data.length;
+    const h = new DataView(new ArrayBuffer(30)); h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true);
+    h.setUint16(10, dt, true); h.setUint16(12, dd, true); h.setUint32(14, crc, true); h.setUint32(18, sz, true); h.setUint32(22, sz, true); h.setUint16(26, nm.length, true); h.setUint16(28, 0, true);
+    parts.push(h.buffer, nm, f.data);
+    const c = new DataView(new ArrayBuffer(46)); c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint16(10, 0, true);
+    c.setUint16(12, dt, true); c.setUint16(14, dd, true); c.setUint32(16, crc, true); c.setUint32(20, sz, true); c.setUint32(24, sz, true); c.setUint16(28, nm.length, true); c.setUint32(42, off, true);
+    cen.push(c.buffer, nm); off += 30 + nm.length + sz;
+  }
+  const cs = cen.reduce((a, b) => a + (b.byteLength || b.length), 0);
+  const e = new DataView(new ArrayBuffer(22)); e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cs, true); e.setUint32(16, off, true);
+  return new Blob([...parts, ...cen, e.buffer], {type: 'application/zip'});
+}
+const safe = s => String(s).replace(/[\\/:*?"<>|\s]+/g, '_').slice(0, 60);
+function tables() {
+  const L = Object.values(REC), csv = rows => '﻿' + rows.map(r => r.map(v => v == null ? '' : String(v).replace(/[;\n\r]/g, ' ')).join(';')).join('\r\n');
+  const g = [['Артикул', 'Ширина, мм', 'Высота, мм', 'Глубина, мм', 'Достоверность', 'Источник']];
+  L.filter(r => r.key.startsWith('p:') && r.status === 'ok').forEach(r => { const p = PROD[r.key.slice(2)]; if (p) g.push([p.a, r.w, r.h, r.d, 'high', 'замер ' + Z.store.name + ' ' + new Date(r.ts).toISOString().slice(0, 10)]); });
+  const ab = [['Артикул', 'Название', 'Комментарий']];
+  L.filter(r => r.key.startsWith('p:') && r.status === 'absent').forEach(r => { const p = PROD[r.key.slice(2)]; if (p) ab.push([p.a, p.n, r.note]); });
+  const nw = [['Название', 'Штрихкод/артикул', 'Категория', 'Ширина, мм', 'Высота, мм', 'Глубина, мм', 'Где стоит']];
+  L.filter(r => r.key.startsWith('n:') && r.status === 'ok').forEach(r => nw.push([r.name, r.code, CAT[r.cat] || '', r.w, r.h, r.d, r.note]));
+  const mb = [['Мебель', 'Проект: Ш×В×Г, мм', 'Ширина, мм', 'Высота, мм', 'Глубина, мм', 'Полка', 'Проект: высота полки, мм', 'Высота полки, мм', 'Проект: глубина полки, мм', 'Глубина полки, мм', 'Комментарий']];
+  L.filter(r => (r.key.startsWith('f:') || r.key.startsWith('g:')) && r.status === 'ok').forEach(r => {
+    const f = FURN[r.key.slice(2)], nm = f ? f.name : (r.name + ' (нет в проекте)'), pr = f ? `${f.w}×${f.h || '?'}×${f.d}` : '';
+    mb.push([nm, pr, r.w, r.h, r.d, '', '', '', '', '', r.note]);
+    (r.shelves || []).forEach(s => mb.push([nm, '', '', '', '', s.n + (s.extra ? ' (новая)' : ''), s.py, s.absent ? 'нет полки' : s.y, s.pd, s.absent ? '' : s.d, '']));
+  });
+  if (REC.room && REC.room.status === 'ok') mb.push(['Помещение', `${Z.hall.w}×${Z.hall.h}×${Z.hall.d}`, REC.room.w, REC.room.h, REC.room.d, '', '', '', '', '', REC.room.note]);
+  return {'габариты-товаров.csv': csv(g), 'нет-в-магазине.csv': csv(ab), 'новые-товары.csv': csv(nw), 'мебель.csv': csv(mb)};
+}
+function photoName(r, p, i) {
+  const k = r.key, base = k.startsWith('p:') ? 'товары/' + safe(PROD[k.slice(2)] ? PROD[k.slice(2)].a : k.slice(2)) : k.startsWith('f:') ? 'мебель/' + safe(FURN[k.slice(2)] ? FURN[k.slice(2)].name : k) :
+    k.startsWith('g:') ? 'мебель/новая_' + safe(r.name || k.slice(2)) : k.startsWith('n:') ? 'новые-товары/' + safe(r.name || k.slice(2)) : 'помещение/зал';
+  return `${base}_${KIND[p.kind] || p.kind}_${i + 1}.jpg`;
+}
+async function buildBatch(all) {
+  const enc = new TextEncoder(), files = [], marks = []; let size = 0;
+  const L = Object.values(REC).sort((a, b) => a.key < b.key ? -1 : 1);
+  outer: for (const r of L) for (const [i, p] of (r.photos || []).entries()) {
+    if (p.sent && !all) continue; if (all && p._batched) continue;
+    const b = await getPhoto(p.pid); if (!b) continue;
+    if (size + b.size > 60e6 && files.length) break outer;
+    files.push({name: 'фото/' + photoName(r, p, i), data: new Uint8Array(await b.arrayBuffer())}); marks.push(p); size += b.size;
+  }
+  const t = tables(); for (const [n, s] of Object.entries(t)) files.push({name: n, data: enc.encode(s)});
+  files.push({name: 'данные.json', data: enc.encode(JSON.stringify({store: Z.store, generated: Z.generated, exported: new Date().toISOString(), rec: Object.values(REC).map(r => ({...r, photos: (r.photos || []).map((p, i) => ({...p, file: photoName(r, p, i)}))}))}, null, 1))});
+  return {zip: await makeZip(files), marks, size};
+}
+function scrSend() {
+  head('Отправить данные', '#'); foot('');
+  const L = Object.values(REC), ph = L.reduce((a, r) => a + (r.photos || []).length, 0), un = L.reduce((a, r) => a + (r.photos || []).filter(p => !p.sent).length, 0);
+  $('#app').innerHTML = `<div class="card"><b>Что собрано</b><p class="mu">Товаров измерено: ${L.filter(r => r.key.startsWith('p:') && r.status === 'ok').length}, нет в магазине: ${L.filter(r => r.key.startsWith('p:') && r.status === 'absent').length}, добавлено вручную: ${L.filter(r => r.key.startsWith('n:')).length}<br>
+  Мебель: ${L.filter(r => (r.key.startsWith('f:') || r.key.startsWith('g:')) && r.status === 'ok').length} из ${Z.furn.length}<br>Фото всего: ${ph}, ещё не отправлено: <b>${un}</b></p><p class="mu" id="stor"></p></div>
+  <div class="card"><b>Как отправить</b><ol class="mu" style="padding-left:20px;margin:8px 0">
+  <li>Нажмите «Отправить» — телефон соберёт архив.</li><li>Откроется меню «Поделиться» — выберите Telegram и отправьте в чат, который вам сказали.</li>
+  <li>Если фото много, архивов будет несколько — нажимайте «Отправить», пока не станет «не отправлено: 0».</li></ol>
+  <button class="btn" id="go">📤 Отправить${un ? ` (новые фото: ${un})` : ' (только таблицы)'}</button>
+  <p class="mu" id="prog"></p></div>
+  <details class="card"><summary>Отправить всё заново</summary><p class="mu">Если архив потерялся. Отправит все фото с начала (несколькими архивами).</p><button class="btn gray" id="again">Пометить всё как неотправленное</button></details>`;
+  if (navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then(e => { $('#stor').textContent = `Занято в телефоне: ${Math.round(e.usage / 1e6)} МБ`; });
+  $('#again').onclick = async () => { if (!confirm('Все фото будут отправлены ещё раз. Продолжить?')) return; for (const r of L) if ((r.photos || []).some(p => p.sent)) { r.photos.forEach(p => p.sent = false); await putRec(r); } scrSend(); };
+  $('#go').onclick = async () => {
+    const b = $('#go'); b.disabled = true; $('#prog').textContent = 'Собираю архив…';
+    try {
+      const {zip, marks} = await buildBatch(false);
+      const nm = `замеры_${safe(Z.store.name)}_${new Date().toISOString().slice(0, 16).replace(/[T:]/g, '-')}.zip`;
+      const file = new File([zip], nm, {type: 'application/zip'});
+      $('#prog').textContent = `Архив: ${Math.round(zip.size / 1e6)} МБ, фото: ${marks.length}`;
+      let ok = false;
+      if (navigator.canShare && navigator.canShare({files: [file]})) {
+        try { await navigator.share({files: [file], title: nm}); ok = true; } catch (e) { if (e.name !== 'AbortError') alert('Не получилось поделиться: ' + e.message); }
+      } else {
+        const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = nm; document.body.appendChild(a); a.click(); a.remove();
+        ok = confirm('Архив скачан. Вы его отправили / сохранили?');
+      }
+      if (ok) { marks.forEach(p => p.sent = true); for (const r of Object.values(REC)) if ((r.photos || []).some(p => marks.includes(p))) await putRec(r); toast('Отправлено ✓'); }
+    } catch (e) { alert('Ошибка: ' + e.message); }
+    scrSend();
+  };
+}
+
+/* ---------- маршруты ---------- */
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1)); window.scrollTo(0, 0);
+  let m;
+  if (!h) scrHome();
+  else if (h === 'furn') scrFurn();
+  else if (h === 'room') scrRoom();
+  else if ((m = h.match(/^f\/(.+)/))) scrFx(m[1], false);
+  else if ((m = h.match(/^g\/(.+)/))) scrFx(m[1], true);
+  else if ((m = h.match(/^fp\/(.+)/))) scrFxProds(m[1]);
+  else if (h === 'prods') scrProds();
+  else if ((m = h.match(/^p\/(.+)/))) { if (!CTX.list.includes(m[1])) CTX = {list: Z.prods.filter(p => !pDone(p.id) || p.id === m[1]).map(p => p.id), from: '#prods'}; scrProd(m[1]); }
+  else if ((m = h.match(/^n\/(.+)/))) scrNew(m[1]);
+  else if (h === 'send') scrSend();
+  else scrHome();
+}
+(async () => {
+  try {
+    db = await idbOpen();
+    (await tx('rec', 'readonly', s => s.getAll()) || []).forEach(r => REC[r.key] = r);
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+  } catch (e) { $('#app').innerHTML = '<div class="card">Телефон не даёт сохранять данные (' + esc(e.message) + '). Откройте страницу в Safari, не в режиме «Частный доступ».</div>'; return; }
+  addEventListener('hashchange', route); route();
+})();
+</script>
+</body>
+</html>
